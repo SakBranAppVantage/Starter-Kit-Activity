@@ -26,6 +26,7 @@ const mutation: GraphQLMutationResolvers['createLife'] = async (
     };
     try {
         await collections.life.insertOne(newLife);
+        console.log('THis is error');
     } catch (error) {
         if (isDuplicateErrorOnFields(error, 'firstName', 'lastName')) {
             throw new InvalidInput({ message: t('Duplicate first name and last name.') });
