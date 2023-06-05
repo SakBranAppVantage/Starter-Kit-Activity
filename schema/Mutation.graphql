@@ -95,5 +95,5 @@ type Mutation {
         birthDay: String!
         title: String!
         hobbies: [String!]!
-    ): Life!
+    ): Life
 }

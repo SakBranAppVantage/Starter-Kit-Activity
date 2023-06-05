@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import NotFoundResult from '../components/results/NotFoundResult';
 import ConsoleLayout from '../layouts/ConsoleLayout';
+import LifePage from '../pages/private/LifeCreatePage';
 import UserListPage from '../pages/private/UserListPage';
 import UserSelfPage from '../pages/private/UserSelfPage';
 
@@ -12,6 +13,7 @@ const PrivateInnerRouter = () => (
             <Route element={<RedirectToHomePage />} path="" />
             <Route element={<UserListPage />} path="system/users" />
             <Route element={<UserSelfPage />} path="self" />
+            <Route element={<LifePage />} path="system/Life" />
             <Route element={<NotFoundResult />} path="*" />
         </Routes>
     </ConsoleLayout>

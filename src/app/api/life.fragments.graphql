@@ -1,0 +1,10 @@
+fragment LifeFields on Life {
+    id
+    firstName
+    lastName
+    fullName
+    description
+    birthDay
+    hobbies
+    title
+}

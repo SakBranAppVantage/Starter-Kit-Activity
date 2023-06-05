@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { ObjectId } from 'mongodb';
 import { Life, getDatabaseContext } from '../../../database';
 import { isDuplicateErrorOnFields } from '../../../utils/common';
@@ -29,8 +30,6 @@ const mutation: GraphQLMutationResolvers['createLife'] = async (
         if (isDuplicateErrorOnFields(error, 'firstName', 'lastName')) {
             throw new InvalidInput({ message: t('Duplicate first name and last name.') });
         }
-
-        // throw it back
         throw error;
     }
 

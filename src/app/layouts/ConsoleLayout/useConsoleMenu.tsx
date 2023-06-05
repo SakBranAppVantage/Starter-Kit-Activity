@@ -28,6 +28,19 @@ const useConsoleMenu = () => {
                         },
                     ],
                 },
+                {
+                    name: t('consoleLayout:menuItems.life'),
+                    key: 'life',
+                    path: '/private/life',
+                    icon: <SettingOutlined />,
+                    routes: [
+                        {
+                            name: t('consoleLayout:menuItems.users'),
+                            path: '/private/system/life',
+                            key: 'lifes',
+                        },
+                    ],
+                },
             ],
         }),
         [t]
