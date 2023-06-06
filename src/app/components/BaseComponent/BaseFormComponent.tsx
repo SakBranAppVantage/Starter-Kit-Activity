@@ -16,7 +16,7 @@ const BaseForm = ({ form }: { form: iForm }) => {
     const onFinishFailed = (errorInfo: any) => {
         form.onFinishFailed(errorInfo);
     };
-    const dateFormat = 'YYYY-MM-DD';
+    const onChangeDate = date => date;
 
     return (
         <Form
@@ -46,18 +46,15 @@ const BaseForm = ({ form }: { form: iForm }) => {
                     return (
                         <Form.Item
                             key={item.name}
-                            getValueFromEvent={onChange => {
-                                if (onchange) {
-                                    moment(onChange).format('YYYY-MM-DD');
-                                }
-                            }}
-                            getValueProps={i => ({ value: moment(i) })}
+                            getValueFromEvent={onChange =>
+                                onChange ? moment(onChange).format('YYYY-MM-DD') : undefined
+                            }
+                            getValueProps={value => ({ value: value ? moment(value) : undefined })}
                             label={item.label}
                             name={item.name}
                             rules={item.rules}
                         >
-                            {/* <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} onChange={onChangeDate}/> */}
-                            <DatePicker format={dateFormat} />
+                            <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} onChange={onChangeDate} />
                         </Form.Item>
                     );
                 }
