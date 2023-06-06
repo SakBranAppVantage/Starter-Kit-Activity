@@ -75,6 +75,7 @@ const LifePage = () => {
         label: 'hobbies',
         placeholder: 'hobbies....',
         type: 'select',
+        mode: 'multiple',
         rules: [{ required: true, message: 'Description is required' }],
         selectList: [
             { value: 'Coding', label: 'Coding', disabled: false },

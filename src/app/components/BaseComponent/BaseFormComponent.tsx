@@ -1,8 +1,12 @@
 import { Button, DatePicker, Form, Input, InputNumber, Select } from 'antd';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import moment from 'moment';
 import iForm from './interface/iForm';
 import iSelect from './interface/iSelect';
+import dayjs from 'dayjs';
+import 'dayjs/locale/en';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import moment from 'moment';
+
+dayjs.extend(customParseFormat);
 
 const BaseForm = ({ form }: { form: iForm }) => {
     const onFinish = (values: any) => {
@@ -12,6 +16,7 @@ const BaseForm = ({ form }: { form: iForm }) => {
     const onFinishFailed = (errorInfo: any) => {
         form.onFinishFailed(errorInfo);
     };
+    const dateFormat = 'YYYY-MM-DD';
 
     return (
         <Form
@@ -41,13 +46,18 @@ const BaseForm = ({ form }: { form: iForm }) => {
                     return (
                         <Form.Item
                             key={item.name}
-                            getValueFromEvent={onChange => moment(onChange).format('YYYY-MM-DD')}
+                            getValueFromEvent={onChange => {
+                                if (onchange) {
+                                    moment(onChange).format('YYYY-MM-DD');
+                                }
+                            }}
                             getValueProps={i => ({ value: moment(i) })}
                             label={item.label}
                             name={item.name}
                             rules={item.rules}
                         >
-                            <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
+                            {/* <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} onChange={onChangeDate}/> */}
+                            <DatePicker format={dateFormat} />
                         </Form.Item>
                     );
                 }
@@ -62,6 +72,7 @@ const BaseForm = ({ form }: { form: iForm }) => {
                     return (
                         <Form.Item key={item.name} label={item.label} name={item.name} rules={item.rules}>
                             <Select
+                                mode={item.mode}
                                 // defaultValue="lucy"
                                 onChange={(value: string, option: iSelect | iSelect[]) => {
                                     if (item.onChange) {

@@ -9,6 +9,7 @@ export interface iFormItem {
     rules: any[];
     placeholder: string;
     style?: object;
+    mode?: 'multiple' | null;
 }
 
 export default iFormItem;
