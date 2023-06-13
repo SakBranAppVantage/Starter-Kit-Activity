@@ -37,5 +37,7 @@ type Query {
     """
     List Lives
     """
-    listLives: [Life!]!
+    listLives(pagination: Pagination!, filter: LifeFilteringRule, sort: LifeSortingRule): PaginatedLifes!
+
+    # listLivesWithPagination(pagination: Pagination!, filter: LifeFilteringRule, sort: LifeSortingRule): PaginatedLifes!
 }
