@@ -7,3 +7,8 @@ export enum UserSortingField {
     Email = 'email',
     Authenticator = 'authenticator',
 }
+
+// export enum LifeSortingField {
+//     firstname = 'firstname',
+//     lastname = 'lastname',
+// }

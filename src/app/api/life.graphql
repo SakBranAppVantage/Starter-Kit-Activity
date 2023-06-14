@@ -24,8 +24,11 @@ query GetLife($id: ID!) {
     }
 }
 
-query ListLives {
-    list: listLives {
-        ...LifeFields
+query listLives($pagination: Pagination!, $sort: LifeSortingRule) {
+    list: listLives(pagination: $pagination, sort: $sort) {
+        count
+        items {
+            ...LifeListData
+        }
     }
 }

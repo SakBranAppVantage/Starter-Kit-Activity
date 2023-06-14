@@ -52,7 +52,7 @@ union ExternalLink = ResetPasswordLink
 scalar JSONObject
 
 type Life {
-  birthDay: String!
+  birthDay: DateTime!
   description: String!
   firstName: String!
   fullName: String!
@@ -60,6 +60,20 @@ type Life {
   id: ObjectID!
   lastName: String!
   title: String!
+}
+
+input LifeFilteringRule {
+  firstName: String
+}
+
+enum LifeSortingField {
+  firstName
+  lastName
+}
+
+input LifeSortingRule {
+  field: LifeSortingField!
+  order: SortingOrder!
 }
 
 type MessageNotice {
@@ -118,6 +132,11 @@ type Mutation {
 
 scalar ObjectID
 
+type PaginatedLifes {
+  count: Int!
+  items: [Life!]!
+}
+
 type PaginatedUsers {
   """Number of user matching the original query"""
   count: Int!
@@ -146,7 +165,7 @@ type Query {
   """Fetch WebAuthn security keys for a username"""
   getWebauthnKeys(username: String!): [String!]!
   """List Lives"""
-  listLives: [Life!]!
+  listLives(filter: LifeFilteringRule, pagination: Pagination!, sort: LifeSortingRule): PaginatedLifes!
   """List users"""
   listUsers(filter: UserFilteringRule, pagination: Pagination!, sort: UserSortingRule): PaginatedUsers!
   """Retrieve a link information"""

@@ -1,4 +1,5 @@
-import { Life, useCreateLifeMutation } from '../../../api';
+import { useNavigate } from 'react-router';
+import { CreateLifeMutationVariables, Life, useCreateLifeMutation } from '../../../api';
 import BaseForm from '../../../components/BaseComponent/BaseFormComponent';
 import iForm from '../../../components/BaseComponent/interface/iForm';
 import iFormItem from '../../../components/BaseComponent/interface/iFormItem';
@@ -6,21 +7,34 @@ import ModalMsg from '../../../components/Modal/ModalComponent';
 
 const LifePage = () => {
     const [createLifeMutation, { loading, error }] = useCreateLifeMutation();
-
+    const navigate = useNavigate();
     const onFinish = async (values: Life) => {
         try {
-            const data: Life = {
+            // for (var i = 0; i < 100000; i++) {
+            const birthDate: Date = new Date(values.birthDay);
+            const data: CreateLifeMutationVariables = {
                 ...values,
+                // firstName: crypto.randomUUID(),
+                // lastName: crypto.randomUUID(),
+                birthDay: birthDate.toISOString(),
                 hobbies: values.hobbies,
             };
-            const response = await createLifeMutation({
-                variables: data,
-            });
+
+            const response = await createLifeMutation({ variables: data });
+            // }
+
             if (response.data) {
+                navigate('/private/system/Life');
                 // alert(JSON.stringify(response.data));
             }
+            if (response.errors) {
+                alert(response.errors[0].message);
+            }
+            // }
         } catch (exception) {
             // alert(exception);
+
+            console.log(exception);
         }
 
         // return <ModalMsg message="Success" title="Success" />;

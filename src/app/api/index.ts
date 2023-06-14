@@ -68,7 +68,7 @@ export type ExternalLink = ResetPasswordLink;
 
 export type Life = {
   __typename?: 'Life';
-  birthDay: Scalars['String'];
+  birthDay: Scalars['DateTime'];
   description: Scalars['String'];
   firstName: Scalars['String'];
   fullName: Scalars['String'];
@@ -76,6 +76,20 @@ export type Life = {
   id: Scalars['ObjectID'];
   lastName: Scalars['String'];
   title: Scalars['String'];
+};
+
+export type LifeFilteringRule = {
+  firstName?: InputMaybe<Scalars['String']>;
+};
+
+export enum LifeSortingField {
+  FirstName = 'firstName',
+  LastName = 'lastName'
+}
+
+export type LifeSortingRule = {
+  field: LifeSortingField;
+  order: SortingOrder;
 };
 
 export type MessageNotice = {
@@ -219,6 +233,12 @@ export type MutationUpdateDisplayNameArgs = {
   displayName: Scalars['String'];
 };
 
+export type PaginatedLifes = {
+  __typename?: 'PaginatedLifes';
+  count: Scalars['Int'];
+  items: Array<Life>;
+};
+
 export type PaginatedUsers = {
   __typename?: 'PaginatedUsers';
   /** Number of user matching the original query */
@@ -247,7 +267,7 @@ export type Query = {
   /** Fetch WebAuthn security keys for a username */
   getWebauthnKeys: Array<Scalars['String']>;
   /** List Lives */
-  listLives: Array<Life>;
+  listLives: PaginatedLifes;
   /** List users */
   listUsers: PaginatedUsers;
   /** Retrieve a link information */
@@ -267,6 +287,13 @@ export type QueryGetLifeArgs = {
 
 export type QueryGetWebauthnKeysArgs = {
   username: Scalars['String'];
+};
+
+
+export type QueryListLivesArgs = {
+  filter?: InputMaybe<LifeFilteringRule>;
+  pagination: Pagination;
+  sort?: InputMaybe<LifeSortingRule>;
 };
 
 
@@ -393,7 +420,9 @@ export type RetrieveLinkQueryVariables = Exact<{
 
 export type RetrieveLinkQuery = { __typename?: 'Query', retrieveLink?: { __typename: 'ResetPasswordLink', token: string } | null };
 
-export type LifeFieldsFragment = { __typename?: 'Life', id: string, firstName: string, lastName: string, fullName: string, description: string, birthDay: string, hobbies: Array<string>, title: string };
+export type LifeFieldsFragment = { __typename?: 'Life', id: string, firstName: string, lastName: string, fullName: string, description: string, birthDay: string | Date, hobbies: Array<string>, title: string };
+
+export type LifeListDataFragment = { __typename?: 'Life', id: string, firstName: string, lastName: string, fullName: string, description: string, birthDay: string | Date, hobbies: Array<string>, title: string };
 
 export type CreateLifeMutationVariables = Exact<{
   firstName: Scalars['String'];
@@ -405,19 +434,22 @@ export type CreateLifeMutationVariables = Exact<{
 }>;
 
 
-export type CreateLifeMutation = { __typename?: 'Mutation', createLife?: { __typename?: 'Life', id: string, firstName: string, lastName: string, fullName: string, description: string, birthDay: string, hobbies: Array<string>, title: string } | null };
+export type CreateLifeMutation = { __typename?: 'Mutation', createLife?: { __typename?: 'Life', id: string, firstName: string, lastName: string, fullName: string, description: string, birthDay: string | Date, hobbies: Array<string>, title: string } | null };
 
 export type GetLifeQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type GetLifeQuery = { __typename?: 'Query', data: { __typename?: 'Life', id: string, firstName: string, lastName: string, fullName: string, description: string, birthDay: string, hobbies: Array<string>, title: string } };
+export type GetLifeQuery = { __typename?: 'Query', data: { __typename?: 'Life', id: string, firstName: string, lastName: string, fullName: string, description: string, birthDay: string | Date, hobbies: Array<string>, title: string } };
 
-export type ListLivesQueryVariables = Exact<{ [key: string]: never; }>;
+export type ListLivesQueryVariables = Exact<{
+  pagination: Pagination;
+  sort?: InputMaybe<LifeSortingRule>;
+}>;
 
 
-export type ListLivesQuery = { __typename?: 'Query', list: Array<{ __typename?: 'Life', id: string, firstName: string, lastName: string, fullName: string, description: string, birthDay: string, hobbies: Array<string>, title: string }> };
+export type ListLivesQuery = { __typename?: 'Query', list: { __typename?: 'PaginatedLifes', count: number, items: Array<{ __typename?: 'Life', id: string, firstName: string, lastName: string, fullName: string, description: string, birthDay: string | Date, hobbies: Array<string>, title: string }> } };
 
 type SystemMessageData_MessageNotice_Fragment = { __typename: 'MessageNotice', date: string | Date, message: string };
 
@@ -567,6 +599,7 @@ export type CompleteWebPublicKeyCredentialRegistrationMutationVariables = Exact<
 export type CompleteWebPublicKeyCredentialRegistrationMutation = { __typename?: 'Mutation', completeWebPublicKeyCredentialRegistration: boolean };
 
 export const LifeFieldsFragmentDoc = /*#__PURE__*/ {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"LifeFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Life"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"birthDay"}},{"kind":"Field","name":{"kind":"Name","value":"hobbies"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]} as unknown as DocumentNode;
+export const LifeListDataFragmentDoc = /*#__PURE__*/ {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"LifeListData"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Life"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"birthDay"}},{"kind":"Field","name":{"kind":"Name","value":"hobbies"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]} as unknown as DocumentNode;
 export const SystemMessageDataFragmentDoc = /*#__PURE__*/ {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SystemMessageData"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"SystemMessage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"UserSessionRevoked"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"displayNotice"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MessageNotice"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode;
 export const UserPreviewDataFragmentDoc = /*#__PURE__*/ {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPreviewData"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}}]}}]} as unknown as DocumentNode;
 export const UserListDataFragmentDoc = /*#__PURE__*/ {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserListData"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"isAuthenticatorEnabled"}},{"kind":"Field","name":{"kind":"Name","value":"isPasswordExpired"}}]}}]} as unknown as DocumentNode;
@@ -662,7 +695,7 @@ export function useGetLifeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetLifeQueryHookResult = ReturnType<typeof useGetLifeQuery>;
 export type GetLifeLazyQueryHookResult = ReturnType<typeof useGetLifeLazyQuery>;
 export type GetLifeQueryResult = Apollo.QueryResult<GetLifeQuery, GetLifeQueryVariables>;
-export const ListLivesDocument = /*#__PURE__*/ {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ListLives"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"list"},"name":{"kind":"Name","value":"listLives"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"LifeFields"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"LifeFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Life"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"birthDay"}},{"kind":"Field","name":{"kind":"Name","value":"hobbies"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]} as unknown as DocumentNode;
+export const ListLivesDocument = /*#__PURE__*/ {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"listLives"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"LifeSortingRule"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"list"},"name":{"kind":"Name","value":"listLives"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}},{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}},{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"LifeListData"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"LifeListData"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Life"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"birthDay"}},{"kind":"Field","name":{"kind":"Name","value":"hobbies"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]} as unknown as DocumentNode;
 
 /**
  * __useListLivesQuery__
@@ -676,10 +709,12 @@ export const ListLivesDocument = /*#__PURE__*/ {"kind":"Document","definitions":
  * @example
  * const { data, loading, error } = useListLivesQuery({
  *   variables: {
+ *      pagination: // value for 'pagination'
+ *      sort: // value for 'sort'
  *   },
  * });
  */
-export function useListLivesQuery(baseOptions?: Apollo.QueryHookOptions<ListLivesQuery, ListLivesQueryVariables>) {
+export function useListLivesQuery(baseOptions: Apollo.QueryHookOptions<ListLivesQuery, ListLivesQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<ListLivesQuery, ListLivesQueryVariables>(ListLivesDocument, options);
       }

@@ -7,7 +7,7 @@ const query: GraphQLQueryResolvers['getLife'] = async (root, args: { id: string 
     const temp = await collections.life.findOne({ _id: new ObjectId(args.id) });
     const response: GraphQLLife = {
         ...temp,
-        birthDay: temp.birthDay.toISOString(),
+        birthDay: temp.birthDay,
         id: temp._id,
     };
 

@@ -29,13 +29,13 @@ const useConsoleMenu = () => {
                     ],
                 },
                 {
-                    name: t('consoleLayout:menuItems.life'),
+                    name: t('Life'),
                     key: 'life',
                     path: '/private/life',
                     icon: <SettingOutlined />,
                     routes: [
                         {
-                            name: t('consoleLayout:menuItems.users'),
+                            name: t('List'),
                             path: '/private/system/life',
                             key: 'lifes',
                         },
