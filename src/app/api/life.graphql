@@ -1,0 +1,34 @@
+mutation CreateLife(
+    $firstName: String!
+    $lastName: String!
+    $description: String!
+    $birthDay: String!
+    $title: String!
+    $hobbies: [String!]!
+) {
+    createLife(
+        firstName: $firstName
+        lastName: $lastName
+        description: $description
+        birthDay: $birthDay
+        title: $title
+        hobbies: $hobbies
+    ) {
+        ...LifeFields
+    }
+}
+
+query GetLife($id: ID!) {
+    data: getLife(id: $id) {
+        ...LifeFields
+    }
+}
+
+query listLives($pagination: Pagination!, $sort: LifeSortingRule) {
+    list: listLives(pagination: $pagination, sort: $sort) {
+        count
+        items {
+            ...LifeListData
+        }
+    }
+}

@@ -51,6 +51,31 @@ union ExternalLink = ResetPasswordLink
 
 scalar JSONObject
 
+type Life {
+  birthDay: DateTime!
+  description: String!
+  firstName: String!
+  fullName: String!
+  hobbies: [String!]!
+  id: ObjectID!
+  lastName: String!
+  title: String!
+}
+
+input LifeFilteringRule {
+  firstName: String
+}
+
+enum LifeSortingField {
+  firstName
+  lastName
+}
+
+input LifeSortingRule {
+  field: LifeSortingField!
+  order: SortingOrder!
+}
+
 type MessageNotice {
   date: DateTime!
   message: String!
@@ -73,6 +98,8 @@ type Mutation {
   completeWebPublicKeyCredentialRegistration(response: JSONObject!, token: String!): Boolean!
   """Create a new account/user"""
   createAccount(email: String!, password: String!, username: String!): User!
+  """Create a new Life"""
+  createLife(birthDay: String!, description: String!, firstName: String!, hobbies: [String!]!, lastName: String!, title: String!): Life
   """Disable 2FA / Authenticator for the signed user"""
   disableAuthenticator: User!
   """Enable 2FA / Authenticator for the signed user"""
@@ -105,6 +132,11 @@ type Mutation {
 
 scalar ObjectID
 
+type PaginatedLifes {
+  count: Int!
+  items: [Life!]!
+}
+
 type PaginatedUsers {
   """Number of user matching the original query"""
   count: Int!
@@ -128,8 +160,12 @@ type Query {
   generateAuthenticatorChallenge(username: String!): AuthenticationWithWebPublicKeyCredential
   """Generate authenticator secret and qrcode"""
   generateAuthenticatorSetup: AuthenticatorSetup!
+  """Get a Life by an ID"""
+  getLife(id: ID!): Life!
   """Fetch WebAuthn security keys for a username"""
   getWebauthnKeys(username: String!): [String!]!
+  """List Lives"""
+  listLives(filter: LifeFilteringRule, pagination: Pagination!, sort: LifeSortingRule): PaginatedLifes!
   """List users"""
   listUsers(filter: UserFilteringRule, pagination: Pagination!, sort: UserSortingRule): PaginatedUsers!
   """Retrieve a link information"""

@@ -28,4 +28,16 @@ type Query {
     Generate challenge to authenticate with WebAuthn
     """
     generateAuthenticatorChallenge(username: String!): AuthenticationWithWebPublicKeyCredential
+
+    """
+    Get a Life by an ID
+    """
+    getLife(id: ID!): Life!
+
+    """
+    List Lives
+    """
+    listLives(pagination: Pagination!, filter: LifeFilteringRule, sort: LifeSortingRule): PaginatedLifes!
+
+    # listLivesWithPagination(pagination: Pagination!, filter: LifeFilteringRule, sort: LifeSortingRule): PaginatedLifes!
 }

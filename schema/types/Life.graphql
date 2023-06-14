@@ -1,0 +1,29 @@
+type Life {
+    id: ObjectID!
+    firstName: String!
+    lastName: String!
+    fullName: String!
+    description: String!
+    birthDay: DateTime!
+    hobbies: [String!]!
+    title: String!
+}
+
+type PaginatedLifes {
+    count: Int!
+    items: [Life!]!
+}
+
+input LifeFilteringRule {
+    firstName: String
+}
+
+enum LifeSortingField {
+    firstName
+    lastName
+}
+
+input LifeSortingRule {
+    field: LifeSortingField!
+    order: SortingOrder!
+}
