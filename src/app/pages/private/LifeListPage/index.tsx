@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import { useTranslation } from 'react-i18next';
 import ConsolePageWithHeader from '../../../layouts/ConsoleLayout/ConsolePageWithHeader';
 import useGoTo from '../../../utilities/useGoTo';
-import LifeList from './UserList';
+import LifeList from './LifeList';
 
 const LifeListPage = () => {
     const { t } = useTranslation('userList');
@@ -17,7 +17,11 @@ const LifeListPage = () => {
     );
 
     return (
-        <ConsolePageWithHeader extra={extra} subTitle={t('userList:subTitle')} title={t('userList:title')}>
+        <ConsolePageWithHeader
+            extra={extra}
+            subTitle={t('List of lifes currently registered on the system')}
+            title={t('Life')}
+        >
             <LifeList />
         </ConsolePageWithHeader>
     );

@@ -3,22 +3,22 @@ import { useTranslation } from 'react-i18next';
 import NoItemResult from '../../../components/results/NoItemResult';
 import useGoTo from '../../../utilities/useGoTo';
 
-const UserEmptyListResult = () => {
+const LifeEmptyListResult = () => {
     const { t } = useTranslation('userList');
 
     // new country link
-    const goToNewUserPage = useGoTo('/private/system/users/new');
+    const goToNewUserPage = useGoTo('/private/system/Life/new');
 
     return (
         <NoItemResult
             extra={
                 <Button onClick={goToNewUserPage} type="primary">
-                    {t('userList:noData.action')}
+                    {t('No Data')}
                 </Button>
             }
-            subTitle={t('userList:noData.message')}
+            subTitle={t('No Data')}
         />
     );
 };
 
-export default UserEmptyListResult;
+export default LifeEmptyListResult;

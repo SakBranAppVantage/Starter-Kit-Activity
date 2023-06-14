@@ -10,34 +10,24 @@ const LifePage = () => {
     const navigate = useNavigate();
     const onFinish = async (values: Life) => {
         try {
-            // for (var i = 0; i < 100000; i++) {
             const birthDate: Date = new Date(values.birthDay);
             const data: CreateLifeMutationVariables = {
                 ...values,
-                // firstName: crypto.randomUUID(),
-                // lastName: crypto.randomUUID(),
                 birthDay: birthDate.toISOString(),
                 hobbies: values.hobbies,
             };
 
             const response = await createLifeMutation({ variables: data });
-            // }
 
             if (response.data) {
                 navigate('/private/system/Life');
-                // alert(JSON.stringify(response.data));
             }
             if (response.errors) {
                 alert(response.errors[0].message);
             }
-            // }
         } catch (exception) {
-            // alert(exception);
-
             console.log(exception);
         }
-
-        // return <ModalMsg message="Success" title="Success" />;
     };
 
     const onFinishFailed = (errorInfo: any) => {
